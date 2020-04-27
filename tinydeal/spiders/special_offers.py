@@ -9,7 +9,7 @@ class SpecialOffersSpider(scrapy.Spider):
 
     def parse(self, response):
 
-       for item in response.xpath("//ul[@class='productlisting-ul']/div/li"):
+        for item in response.xpath("//ul[@class='productlisting-ul']/div/li"):
 
             item_name = item.xpath(".//a[@class='p_box_title']/text()").get()
             item_url =  item.xpath(".//a[@class='p_box_title']/@href").get()
@@ -23,8 +23,8 @@ class SpecialOffersSpider(scrapy.Spider):
                 "discount price ": item_discount_price,
                 "original price ": item_original_price 
             }
-        
-        next_page = response.xpath("//a[@class='nextPage']")
+
+        next_page = response.xpath("//a[@class='nextPage']/@href").get()
 
         if next_page:
             yield scrapy.Request(url=next_page, callback= self.parse)
